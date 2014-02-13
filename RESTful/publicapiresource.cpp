@@ -36,8 +36,8 @@ PublicAPIResource::PublicAPIResource(WObject *parent) :
     m_pimpl(std::make_unique<PublicAPIResource::Impl>())
 {
     m_pimpl->ServiceContractPtr = std::make_unique<Footpal::ServiceContract<PublicAPIResource::Impl> >(m_pimpl.get());
-    m_pimpl->ServiceContractPtr->Register(L"Account/Login/JSON/{username}/{password}");
-    m_pimpl->ServiceContractPtr->Register(L"Account/Login/XML/{username}/{password}");
+    m_pimpl->ServiceContractPtr->Register(LoginUserJSON_URI_TEMPLATE);
+    m_pimpl->ServiceContractPtr->Register(LoginUserXML_URI_TEMPLATE);
 }
 
 PublicAPIResource::~PublicAPIResource()
