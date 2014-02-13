@@ -11,8 +11,8 @@
 #include "publicapiresource.hpp"
 #include "servicecontract.hpp"
 
-#define     LoginUserJSON_URI_TEMPLATE              "Account/Login/JSON/{username}/{password}"
-#define     LoginUserXML_URI_TEMPLATE               "Account/Login/XML/{username}/{password}"
+#define     LoginUserJSON_URI_TEMPLATE              L"Account/Login/JSON/{username}/{password}"
+#define     LoginUserXML_URI_TEMPLATE               L"Account/Login/XML/{username}/{password}"
 
 using namespace std;
 using namespace boost;
