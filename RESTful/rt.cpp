@@ -5,16 +5,13 @@
 using namespace std;
 using namespace Footpal;
 
-class RT::Impl
+struct RT::Impl
 {
-public:
     typedef std::unique_ptr<StorageStruct> Storage_ptr;
 
-public:
     std::mutex StorageMutex;
     Storage_ptr StorageInstance;
 
-public:
     Impl();
     ~Impl();
 };

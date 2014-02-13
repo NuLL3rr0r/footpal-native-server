@@ -239,7 +239,7 @@ ENDIF (  )
 IF ( CXX_CLANG )
     SET ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
 
-    SET ( CLANG_CXX_FLAGS_WARN_LEVEL "-Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-global-constructors -Wno-exit-time-destructors -Wno-padded -Wno-weak-vtables" )
+    SET ( CLANG_CXX_FLAGS_WARN_LEVEL "-Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-global-constructors -Wno-exit-time-destructors -Wno-padded -Wno-weak-vtables -Wno-unused-macros" )
     SET ( CLANG_CXX_FLAGS_ISO_CPP "-pedantic" )
 
     IF ( CMAKE_BUILD_TYPE MATCHES "ClangMinSizeRel"

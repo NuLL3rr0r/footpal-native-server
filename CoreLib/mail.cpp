@@ -20,16 +20,14 @@ using namespace std;
 using namespace boost;
 using namespace CoreLib;
 
-class Mail::Impl
+struct Mail::Impl
 {
-public:
     std::string From;
     std::string To;
     std::string Subject;
     std::string Body;
     std::vector<std::string> Attachments;
 
-public:
     Impl();
     ~Impl();
 };

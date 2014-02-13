@@ -2,28 +2,21 @@
 #define PUBLIC_API_RESOURCE_HPP
 
 
-#include <Wt/WResource>
-
-namespace Wt {
-    namespace Http {
-        class Request;
-        class Response;
-    }
-}
+#include "apiresource.hpp"
 
 namespace Footpal {
     class PublicAPIResource;
 }
 
-class Footpal::PublicAPIResource : public Wt::WResource
+class Footpal::PublicAPIResource : public Footpal::APIResource
 {
 private:
-    class Impl;
+    struct Impl;
     std::unique_ptr<Impl> m_pimpl;
 
 public:
-    PublicAPIResource(WObject *parent = NULL);
-    ~PublicAPIResource();
+    explicit PublicAPIResource(WObject *parent = NULL);
+    virtual ~PublicAPIResource();
 
 public:
     virtual void handleRequest(const Wt::Http::Request &request, Wt::Http::Response &response);

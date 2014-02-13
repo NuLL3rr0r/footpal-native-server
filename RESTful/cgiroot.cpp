@@ -11,10 +11,12 @@ using namespace StockMarket;
 
 CgiRoot::CgiRoot(const WEnvironment &env) : WApplication(env)
 {
+    this->setInternalPathDefaultValid(false);
+
     root()->clear();
     root()->addWidget(new WText(
                           "<center>"
-                          "<h3>Iran Stock Market's RESTful web service version 1.0</h3>"
+                          "<h3>${SECRET} RESTful web service version 1.0</h3>"
                           "</center>"
                           ));
 }
