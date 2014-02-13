@@ -88,3 +88,4 @@ bool ServiceContract::Resolve(const std::wstring &uri, std::wstring &out_uriTemp
 
     return false;
 }
+
