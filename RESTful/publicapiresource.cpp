@@ -21,7 +21,7 @@ using namespace Footpal;
 
 struct PublicAPIResource::Impl
 {
-    std::unique_ptr<ServiceContract<Impl> > ServiceContractPtr;
+    std::unique_ptr<ServiceContract> ServiceContractPtr;
 
     void LoginUserJSON(const std::wstring &username, const std::wstring &password, std::wstring &out_response);
     void LoginUserXML(const std::wstring &username, const std::wstring &password, std::wstring &out_response);
@@ -35,7 +35,7 @@ PublicAPIResource::PublicAPIResource(WObject *parent) :
     APIResource(parent),
     m_pimpl(std::make_unique<PublicAPIResource::Impl>())
 {
-    m_pimpl->ServiceContractPtr = std::make_unique<Footpal::ServiceContract<PublicAPIResource::Impl> >(m_pimpl.get());
+    m_pimpl->ServiceContractPtr = std::make_unique<Footpal::ServiceContract>();
     m_pimpl->ServiceContractPtr->Register(LoginUserJSON_URI_TEMPLATE);
     m_pimpl->ServiceContractPtr->Register(LoginUserXML_URI_TEMPLATE);
 }
