@@ -47,32 +47,37 @@ PublicAPIResource::~PublicAPIResource()
 
 void PublicAPIResource::handleRequest(const Wt::Http::Request &request, Wt::Http::Response &response)
 {
-    WString uri((boost::format("%1%%2%")
-                 % request.path().substr(request.path().find_last_of("/") + 1)
-                 % request.pathInfo()
-                 ).str());
-    wstring uriTemplate;
-    vector<wstring> args;
+    try {
+        WString uri((boost::format("%1%%2%")
+                     % request.path().substr(request.path().find_last_of("/") + 1)
+                     % request.pathInfo()
+                     ).str());
+        wstring uriTemplate;
+        vector<wstring> args;
 
-    if (m_pimpl->ServiceContractPtr->Resolve(uri.value(), uriTemplate, args)) {
-        wstring outResponse;
+        if (m_pimpl->ServiceContractPtr->Resolve(uri.value(), uriTemplate, args)) {
+            wstring outResponse;
 
-        if (uriTemplate == LoginUserJSON_URI_TEMPLATE) {
-            m_pimpl->LoginUserJSON(args[0], args[1], outResponse);
-        } else if (uriTemplate == LoginUserXML_URI_TEMPLATE) {
-            m_pimpl->LoginUserXML(args[0], args[1], outResponse);
-        }
+            if (uriTemplate == LoginUserJSON_URI_TEMPLATE) {
+                m_pimpl->LoginUserJSON(args[0], args[1], outResponse);
+            } else if (uriTemplate == LoginUserXML_URI_TEMPLATE) {
+                m_pimpl->LoginUserXML(args[0], args[1], outResponse);
+            }
 
-        LOG_ERROR(WString(outResponse).toUTF8());
-        response.out() << outResponse;
-    } else {
-        if (boost::algorithm::contains(uri.value(), L"/JSON")) {
-            response.out() << GetHTTPStatusJSON(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400);
-        } else if (boost::algorithm::contains(uri.value(), L"/XML")) {
-            response.out() << GetHTTPStatusXML(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400);
+            response.out() << outResponse;
         } else {
-            response.out() << GetHTTPStatusPlain(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400);
+            if (boost::algorithm::contains(uri.value(), L"/JSON")) {
+                response.out() << GetHTTPStatusJSON(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400);
+            } else if (boost::algorithm::contains(uri.value(), L"/XML")) {
+                response.out() << GetHTTPStatusXML(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400);
+            } else {
+                response.out() << GetHTTPStatusPlain(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400);
+            }
         }
+    }
+
+    catch (...) {
+        response.out() << GetHTTPStatusPlain(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_500);
     }
 }
 
