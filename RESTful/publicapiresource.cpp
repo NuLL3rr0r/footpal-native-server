@@ -21,9 +21,6 @@ using namespace Footpal;
 
 struct PublicAPIResource::Impl
 {
-    typedef void(*LoginUserJSON_t)(const std::wstring &, const std::wstring &, std::wstring &);
-    typedef void(*LoginUserXML_t)(const std::wstring &, const std::wstring &, std::wstring &);
-
     std::unique_ptr<ServiceContract<Impl> > ServiceContractPtr;
 
     void LoginUserJSON(const std::wstring &username, const std::wstring &password, std::wstring &out_response);
