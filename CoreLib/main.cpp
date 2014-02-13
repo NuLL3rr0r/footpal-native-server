@@ -29,8 +29,8 @@ void CoreLib::CoreLibInitialize(int argc, char **argv)
     boost::filesystem::path path(boost::filesystem::initial_path<boost::filesystem::path>());
     if (argc > 0 && argv[0] != NULL)
         path = boost::filesystem::system_complete(boost::filesystem::path(argv[0]));
-    std::string appName(path.filename().string());
-    std::string appPath(boost::algorithm::replace_last_copy(path.string(), appName, ""));
+    std::string appId(path.filename().string());
+    std::string appPath(boost::algorithm::replace_last_copy(path.string(), appId, ""));
     boost::filesystem::current_path(appPath);
 }
 

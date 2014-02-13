@@ -7,47 +7,47 @@ using namespace  std;
 using namespace  boost;
 using namespace  CoreLib;
 
-#define     HTTP_VERSION        "HTTP/1.1"
-#define     HTTP_100_DEF        "100 Continue"
-#define     HTTP_101_DEF        "101 Switching Protocols"
-#define     HTTP_200_DEF        "200 OK"
-#define     HTTP_201_DEF        "201 Created"
-#define     HTTP_202_DEF        "202 Accepted"
-#define     HTTP_203_DEF        "203 Non-Authoritative Information"
-#define     HTTP_204_DEF        "204 No Content"
-#define     HTTP_205_DEF        "205 Reset Content"
-#define     HTTP_206_DEF        "206 Partial Content"
-#define     HTTP_300_DEF        "300 Multiple Choices"
-#define     HTTP_301_DEF        "301 Moved Permanently"
-#define     HTTP_302_DEF        "302 Found"
-#define     HTTP_303_DEF        "303 See Other"
-#define     HTTP_304_DEF        "304 Not Modified"
-#define     HTTP_305_DEF        "305 Use Proxy"
-#define     HTTP_307_DEF        "307 Temporary Redirect"
-#define     HTTP_400_DEF        "400 Bad Request"
-#define     HTTP_401_DEF        "401 Unauthorized"
-#define     HTTP_402_DEF        "402 Payment Required"
-#define     HTTP_403_DEF        "403 Forbidden"
-#define     HTTP_404_DEF        "404 Not Found"
-#define     HTTP_405_DEF        "405 Method Not Allowed"
-#define     HTTP_406_DEF        "406 Not Acceptable"
-#define     HTTP_407_DEF        "407 Proxy Authentication Required"
-#define     HTTP_408_DEF        "408 Request Timeout"
-#define     HTTP_409_DEF        "409 Conflict"
-#define     HTTP_410_DEF        "410 Gone"
-#define     HTTP_411_DEF        "411 Length Required"
-#define     HTTP_412_DEF        "412 Precondition Failed"
-#define     HTTP_413_DEF        "413 Request Entity Too Large"
-#define     HTTP_414_DEF        "414 Request-URI Too Long"
-#define     HTTP_415_DEF        "415 Unsupported Media Type"
-#define     HTTP_416_DEF        "416 Requested Range Not Satisfiable"
-#define     HTTP_417_DEF        "417 Expectation Failed"
-#define     HTTP_500_DEF        "500 Internal Server Error"
-#define     HTTP_501_DEF        "501 Not Implemented"
-#define     HTTP_502_DEF        "502 Bad Gateway"
-#define     HTTP_503_DEF        "503 Service Unavailable"
-#define     HTTP_504_DEF        "504 Gateway Timeout"
-#define     HTTP_505_DEF        "505 HTTP Version Not Supported"
+#define     HTTP_VERSION        L"HTTP/1.1"
+#define     HTTP_100_DEF        L"100 Continue"
+#define     HTTP_101_DEF        L"101 Switching Protocols"
+#define     HTTP_200_DEF        L"200 OK"
+#define     HTTP_201_DEF        L"201 Created"
+#define     HTTP_202_DEF        L"202 Accepted"
+#define     HTTP_203_DEF        L"203 Non-Authoritative Information"
+#define     HTTP_204_DEF        L"204 No Content"
+#define     HTTP_205_DEF        L"205 Reset Content"
+#define     HTTP_206_DEF        L"206 Partial Content"
+#define     HTTP_300_DEF        L"300 Multiple Choices"
+#define     HTTP_301_DEF        L"301 Moved Permanently"
+#define     HTTP_302_DEF        L"302 Found"
+#define     HTTP_303_DEF        L"303 See Other"
+#define     HTTP_304_DEF        L"304 Not Modified"
+#define     HTTP_305_DEF        L"305 Use Proxy"
+#define     HTTP_307_DEF        L"307 Temporary Redirect"
+#define     HTTP_400_DEF        L"400 Bad Request"
+#define     HTTP_401_DEF        L"401 Unauthorized"
+#define     HTTP_402_DEF        L"402 Payment Required"
+#define     HTTP_403_DEF        L"403 Forbidden"
+#define     HTTP_404_DEF        L"404 Not Found"
+#define     HTTP_405_DEF        L"405 Method Not Allowed"
+#define     HTTP_406_DEF        L"406 Not Acceptable"
+#define     HTTP_407_DEF        L"407 Proxy Authentication Required"
+#define     HTTP_408_DEF        L"408 Request Timeout"
+#define     HTTP_409_DEF        L"409 Conflict"
+#define     HTTP_410_DEF        L"410 Gone"
+#define     HTTP_411_DEF        L"411 Length Required"
+#define     HTTP_412_DEF        L"412 Precondition Failed"
+#define     HTTP_413_DEF        L"413 Request Entity Too Large"
+#define     HTTP_414_DEF        L"414 Request-URI Too Long"
+#define     HTTP_415_DEF        L"415 Unsupported Media Type"
+#define     HTTP_416_DEF        L"416 Requested Range Not Satisfiable"
+#define     HTTP_417_DEF        L"417 Expectation Failed"
+#define     HTTP_500_DEF        L"500 Internal Server Error"
+#define     HTTP_501_DEF        L"501 Not Implemented"
+#define     HTTP_502_DEF        L"502 Bad Gateway"
+#define     HTTP_503_DEF        L"503 Service Unavailable"
+#define     HTTP_504_DEF        L"504 Gateway Timeout"
+#define     HTTP_505_DEF        L"505 HTTP Version Not Supported"
 
 struct HTTPStatus::Impl
 {
@@ -60,7 +60,7 @@ struct HTTPStatus::Impl
         }
     };
 
-    typedef unordered_map<HTTPStatusCode, std::string, Hasher<HTTPStatusCode>> StatusCodes_t;
+    typedef unordered_map<HTTPStatusCode, std::wstring, Hasher<HTTPStatusCode>> StatusCodes_t;
     StatusCodes_t StatusCodes;
 
     Impl();
@@ -69,9 +69,9 @@ struct HTTPStatus::Impl
 
 std::unique_ptr<HTTPStatus::Impl> HTTPStatus::s_pimpl = std::make_unique<HTTPStatus::Impl>();
 
-std::string HTTPStatus::GetHTTPResponse(const HTTPStatusCode &code)
+std::wstring HTTPStatus::GetHTTPResponse(const HTTPStatusCode &code)
 {
-    return (boost::format("%1% %2%") % HTTP_VERSION % s_pimpl->StatusCodes[code]).str();
+    return (boost::wformat(L"%1% %2%") % HTTP_VERSION % s_pimpl->StatusCodes[code]).str();
 }
 
 HTTPStatus::Impl::Impl()

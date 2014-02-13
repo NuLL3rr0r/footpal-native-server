@@ -4,7 +4,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #endif  // defined ( __unix__ )
-
 #include "system.hpp"
 #include "make_unique.hpp"
 
@@ -21,7 +20,7 @@ struct System::Impl
 bool System::Exec(const string &cmd)
 {
     int r = system(cmd.c_str());
-    if (r == 0)
+    if (r == EXIT_SUCCESS)
         return true;
     else
         return false;

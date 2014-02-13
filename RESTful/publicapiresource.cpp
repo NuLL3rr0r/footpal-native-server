@@ -60,24 +60,24 @@ void PublicAPIResource::handleRequest(const Wt::Http::Request &request, Wt::Http
 
             if (uriTemplate == LoginUserJSON_URI_TEMPLATE) {
                 m_pimpl->LoginUserJSON(args[0], args[1], outResponse);
+                PrintJSON(response, outResponse);
             } else if (uriTemplate == LoginUserXML_URI_TEMPLATE) {
                 m_pimpl->LoginUserXML(args[0], args[1], outResponse);
+                PrintXML(response, outResponse);
             }
-
-            response.out() << outResponse;
         } else {
             if (boost::algorithm::contains(uri.value(), L"/JSON")) {
-                response.out() << GetHTTPStatusJSON(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400);
+                PrintJSON(response, GetHTTPStatusJSON(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400));
             } else if (boost::algorithm::contains(uri.value(), L"/XML")) {
-                response.out() << GetHTTPStatusXML(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400);
+                PrintXML(response, GetHTTPStatusXML(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400));
             } else {
-                response.out() << GetHTTPStatusPlain(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400);
+                Print(response, GetHTTPStatus(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_400));
             }
         }
     }
 
     catch (...) {
-        response.out() << GetHTTPStatusPlain(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_500);
+        Print(response, GetHTTPStatus(CoreLib::HTTPStatus::HTTPStatusCode::HTTP_500));
     }
 }
 

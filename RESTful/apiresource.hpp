@@ -27,9 +27,13 @@ public:
     virtual void handleRequest(const Wt::Http::Request &request, Wt::Http::Response &response) = 0;
 
 protected:
-    std::string GetHTTPStatusPlain(const CoreLib::HTTPStatus::HTTPStatusCode &code) const;
-    std::string GetHTTPStatusJSON(const CoreLib::HTTPStatus::HTTPStatusCode &code) const;
-    std::string GetHTTPStatusXML(const CoreLib::HTTPStatus::HTTPStatusCode &code) const;
+    std::wstring GetHTTPStatus(const CoreLib::HTTPStatus::HTTPStatusCode &code) const;
+    std::wstring GetHTTPStatusJSON(const CoreLib::HTTPStatus::HTTPStatusCode &code) const;
+    std::wstring GetHTTPStatusXML(const CoreLib::HTTPStatus::HTTPStatusCode &code) const;
+
+    void Print(Wt::Http::Response &response, const std::wstring &text);
+    void PrintJSON(Wt::Http::Response &response, const std::wstring &json);
+    void PrintXML(Wt::Http::Response &response, const std::wstring &xml);
 };
 
 

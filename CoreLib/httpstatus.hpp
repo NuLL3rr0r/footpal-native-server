@@ -59,7 +59,7 @@ private:
     static std::unique_ptr<Impl> s_pimpl;
 
 public:
-    static std::string GetHTTPResponse(const HTTPStatusCode &code);
+    static std::wstring GetHTTPResponse(const HTTPStatusCode &code);
 };
 
 
