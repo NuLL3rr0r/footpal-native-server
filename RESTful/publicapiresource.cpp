@@ -21,7 +21,7 @@ using namespace Footpal;
 
 struct PublicAPIResource::Impl
 {
-    std::unique_ptr<ServiceContract> ServiceContractPtr;
+    std::unique_ptr<Footpal::ServiceContract> ServiceContractPtr;
 
     void LoginUserJSON(const std::wstring &username, const std::wstring &password, std::wstring &out_response);
     void LoginUserXML(const std::wstring &username, const std::wstring &password, std::wstring &out_response);
