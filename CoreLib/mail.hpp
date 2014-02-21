@@ -1,7 +1,8 @@
-#ifndef MAILER_HPP
-#define MAILER_HPP
+#ifndef CORELIB_MAILER_HPP
+#define CORELIB_MAILER_HPP
 
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -40,6 +41,6 @@ public:
 };
 
 
-#endif /* MAILER_HPP */
+#endif /* CORELIB_MAILER_HPP */
 
 
