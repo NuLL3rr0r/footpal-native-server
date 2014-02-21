@@ -1,0 +1,34 @@
+fetch http://www.libssh2.org/download/libssh2-1.4.3.tar.gz
+tar xvzf libssh2-1.4.3.tar.gz
+cd libssh2-1.4.3
+./configure
+make -j5
+sudo make install
+
+
+git clone https://github.com/datastax/cpp-driver.git
+cd cpp-driver
+
+nano -w src/cql/internal/cql_serialization.cpp
+########
+#ifdef _WIN32
+#define NTDDI_VERSION 0x06000000
+#define _WIN32_WINNT 0x0600
+#include <Ws2tcpip.h>
+#include <Winsock2.h>
+
+#include <string.h> // For memset and memcpy.
+#else
+#include <arpa/inet.h>
++#include <netinet/in.h>
++#include <sys/socket.h>
+#endif
+########
+
+mkdir build && cd build
+cmake ../
+make -j5 && make -j5 cql_demo && make -j5 cql_test && make -j5 test
+sudo make install
+
+
+
