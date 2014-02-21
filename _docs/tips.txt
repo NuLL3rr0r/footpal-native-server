@@ -1,0 +1,141 @@
+
+
+############################# HOW TO BUILD ///////
+cd NativeFootpalServer
+mkdir build
+cd build
+
+# CMAKE_BUILD_TYPE possible values
+#   * None
+#   * Debug
+#   * Release
+#   * RelWithDebInfo
+#   * MinSizeRel
+#   * GCCMinSizeRel
+#   * GCCMaxSpeedRel
+#   * GCCNativeMinSizeRel
+#   * GCCNativeMaxSpeedRel
+#   * ClangMinSizeRel
+#   * ClangMaxSpeedRel
+#   * ClangNativeMinSizeRel
+#   * ClangNativeMaxSpeedRel
+
+sudo cmake -DCMAKE_BUILD_TYPE=ClangNativeMaxSpeedRel -DRESTFUL_PROJECT_INSTALL_PREFIX=/srv/footpal.net ../
+
+# -j<NUMBER_OF_CPU_CORES + 1>
+sudo make -j5 install
+
+# Then set the correct permissions on /srv/footpal.net
+############################# HOW TO BUILD ///////
+
+
+############################# SPAWN.DB CONF ///////
+{
+    "apps" :
+    [
+        {
+            "app"     :  "/srv/footpal.net/www/footpal.rest",
+            "config"  :  "/srv/footpal.net/etc/wt_config.xml",
+            "socket"  :  "/srv/footpal.net/tmp/footpal.net.socket",
+            "workdir" :  "/srv/footpal.net/www/"
+        }
+    ]
+}
+############################# SPAWN.DB CONF ///////
+
+
+############################# NGINX VHOST ///////
+server {
+    server_name  footpal.net;
+    rewrite ^(.*) http://www.footpal.net$1 permanent;
+
+    # CloudFlare
+    include /srv/.nginx/conf/cloudflare;
+}
+
+server {
+    listen  80;
+    server_name   www.footpal.net;
+    error_log     /srv/footpal.net/log/www_error_log;
+    access_log    /srv/footpal.net/log/www_access_log;
+
+    root           /srv/footpal.net/www/;
+    index          index.html index.php;
+    fastcgi_index  index.php;
+
+    location ~ ^.+\.php$ {
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_param  SCRIPT_FILENAME  /srv/footpal.net/www$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+
+    merge_slashes on;
+
+    # RESTful web service
+    location /footpal.rest {
+        fastcgi_pass   unix:/srv/footpal.net/tmp/footpal.net.socket;
+
+        fastcgi_param  QUERY_STRING       $query_string;
+        fastcgi_param  REQUEST_METHOD     $request_method;
+        fastcgi_param  CONTENT_TYPE       $content_type;
+        fastcgi_param  CONTENT_LENGTH     $content_length;
+
+        if ($document_uri ~ "^/footpal.rest/(.*)") {
+            set $apache_path_info /$1;
+        }
+
+        fastcgi_param  SCRIPT_NAME        /footpal.net/www/footpal.rest;
+        fastcgi_param  PATH_INFO          $apache_path_info;
+        fastcgi_param  REQUEST_URI        $request_uri;
+        fastcgi_param  DOCUMENT_URI       $document_uri;
+        fastcgi_param  DOCUMENT_ROOT      $document_root;
+        fastcgi_param  SERVER_PROTOCOL    $server_protocol;
+
+        fastcgi_param  GATEWAY_INTERFACE  CGI/1.1;
+        fastcgi_param  SERVER_SOFTWARE    nginx/$nginx_version;
+
+        fastcgi_param  REMOTE_ADDR        $remote_addr;
+        fastcgi_param  REMOTE_PORT        $remote_port;
+        fastcgi_param  SERVER_ADDR        $server_addr;
+        fastcgi_param  SERVER_PORT        $server_port;
+        fastcgi_param  SERVER_NAME        $server_name;
+    }
+	
+    # Error Pages
+    include /srv/.nginx/conf/error;
+
+    # CloudFlare
+    include /srv/.nginx/conf/cloudflare;
+}
+############################# NGINX VHOST ///////
+
+############################# NGINX LOCAL dotCONF ///////
+    merge_slashes on;
+
+    location /footpal.rest(?<path_info>/.*|$) {
+        fastcgi_pass   unix:/srv/footpal.net/tmp/footpal.net.socket;
+
+        fastcgi_param  QUERY_STRING       $query_string;
+        fastcgi_param  REQUEST_METHOD     $request_method;
+        fastcgi_param  CONTENT_TYPE       $content_type;
+        fastcgi_param  CONTENT_LENGTH     $content_length;
+
+        fastcgi_param  SCRIPT_NAME        /footpal.net/www/footpal.rest;
+        fastcgi_param  PATH_INFO    	  $path_info;
+        fastcgi_param  REQUEST_URI        $request_uri;
+        fastcgi_param  DOCUMENT_URI       $document_uri;
+        fastcgi_param  DOCUMENT_ROOT      $document_root;
+        fastcgi_param  SERVER_PROTOCOL    $server_protocol;
+
+        fastcgi_param  GATEWAY_INTERFACE  CGI/1.1;
+        fastcgi_param  SERVER_SOFTWARE    nginx/$nginx_version;
+
+        fastcgi_param  REMOTE_ADDR        $remote_addr;
+        fastcgi_param  REMOTE_PORT        $remote_port;
+        fastcgi_param  SERVER_ADDR        $server_addr;
+        fastcgi_param  SERVER_PORT        $server_port;
+        fastcgi_param  SERVER_NAME        $server_name;
+    }
+############################# NGINX LOCAL dotCONF ///////
+
+
