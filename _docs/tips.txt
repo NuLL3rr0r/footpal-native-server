@@ -112,7 +112,7 @@ server {
 ############################# NGINX LOCAL dotCONF ///////
     merge_slashes on;
 
-    location /footpal.rest(?<path_info>/.*|$) {
+    location /footpal.net/www/footpal.rest(?<path_info>/.*|$) {
         fastcgi_pass   unix:/srv/footpal.net/tmp/footpal.net.socket;
 
         fastcgi_param  QUERY_STRING       $query_string;
