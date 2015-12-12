@@ -1,7 +1,7 @@
 Footpal Server
 ==============
 
-The REST server component of a cloud-based instant messaging service, written in [Wt (Witty) C++ web framework](http://www.webtoolkit.eu/wt) with performance in mind.
+The secure high-performance REST server component of a cloud-based instant messaging service, written in [Wt (Witty) C++ web framework](http://www.webtoolkit.eu/wt) with performance in mind.
 
 This project consists of the following sub-projects:
 
